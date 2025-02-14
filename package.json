@@ -1,7 +1,7 @@
 {
-  "name": "typescript-npm-package-template",
-  "version": "0.0.0-development",
-  "description": "A template for creating npm packages using TypeScript and VSCode",
+  "name": "keepa-node-api",
+  "version": "0.1.0",
+  "description": "Keepa API wrapper for Node.js",
   "main": "./lib/index.js",
   "files": [
     "lib/**/*"
@@ -19,13 +19,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryansonshine/typescript-npm-package-template.git"
+    "url": "git+https://github.com/reedom/keepa-node-api.git"
   },
   "license": "MIT",
   "author": {
-    "name": "Ryan Sonshine",
-    "email": "ryansonshine@users.noreply.github.com",
-    "url": "https://github.com/ryansonshine"
+    "name": "HANAI, Tohru",
+    "email": "tohru@reedom.com",
+    "url": "https://github.com/reedom"
   },
   "engines": {
     "node": ">=12.0"
@@ -37,16 +37,14 @@
     "vscode",
     "jest",
     "husky",
-    "commitizen",
     "semantic-release",
     "codecov"
   ],
   "bugs": {
-    "url": "https://github.com/ryansonshine/typescript-npm-package-template/issues"
+    "url": "https://github.com/reedom/keepa-node-api/issues"
   },
-  "homepage": "https://github.com/ryansonshine/typescript-npm-package-template#readme",
+  "homepage": "https://github.com/reedom/keepa-node-api#readme",
   "devDependencies": {
-    "@ryansonshine/commitizen": "^4.2.8",
     "@ryansonshine/cz-conventional-changelog": "^3.3.4",
     "@types/jest": "^27.5.2",
     "@types/node": "^12.20.11",
@@ -65,11 +63,6 @@
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "typescript": "^4.2.4"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/@ryansonshine/cz-conventional-changelog"
-    }
   },
   "lint-staged": {
     "*.ts": "eslint --cache --cache-location .eslintcache --fix"
