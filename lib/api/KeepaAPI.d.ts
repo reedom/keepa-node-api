@@ -1,11 +1,6 @@
+import { KeepaHttpClient } from './http/KeepaHttpClient';
 import { Request } from './models/Request';
 import { Response } from './models/Response';
-export type KeepaHttpClient = (params: {
-    method?: 'GET' | 'POST';
-    url: string;
-    data?: string;
-    timeout?: number;
-}) => Promise<Response | never>;
 export declare enum ResponseStatus {
     PENDING = 0,
     OK = 1,
@@ -20,11 +15,13 @@ export declare class KeepaAPI {
     private accessKey;
     private httpClient;
     private maxDelay;
-    private timeout;
-    constructor(httpAgent: KeepaHttpClient, { accessKey, maxDelay, timeout, }: {
+    private defaultTimeout;
+    constructor({ accessKey, httpClient, userAgent, maxDelay, defaultTimeout, }: {
         accessKey: string;
+        httpClient: 'auto' | 'axios' | 'UrlFetchApp' | KeepaHttpClient;
+        userAgent?: string;
         maxDelay?: number;
-        timeout?: number;
+        defaultTimeout?: number;
     });
     sendRequest(r: Request, { timeout }?: {
         timeout?: number;
