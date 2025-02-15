@@ -1,16 +1,6 @@
 import { KeepaHttpClient } from './http/KeepaHttpClient';
 import { Request } from './models/Request';
 import { Response } from './models/Response';
-export declare enum ResponseStatus {
-    PENDING = 0,
-    OK = 1,
-    FAIL = 2,
-    NOT_ENOUGH_TOKEN = 3,
-    REQUEST_REJECTED = 4,
-    PAYMENT_REQUIRED = 5,
-    METHOD_NOT_ALLOWED = 6,
-    INTERNAL_SERVER_ERROR = 7
-}
 export declare class KeepaAPI {
     private accessKey;
     private httpClient;
@@ -47,5 +37,5 @@ export declare class KeepaAPI {
     sendRequestWithRetry(r: Request, { timeout }?: {
         timeout?: number;
     }): Promise<Response>;
-    private handleError;
+    private toResponse;
 }
