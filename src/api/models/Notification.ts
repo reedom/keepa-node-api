@@ -1,5 +1,3 @@
-import { AmazonLocale } from './AmazonLocale';
-
 /**
  * Represents a price alert
  */

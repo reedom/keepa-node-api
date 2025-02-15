@@ -1,5 +1,3 @@
-import { Category } from './Category';
-
 /**
  * About:
  * A Deal object represents a product that has recently changed (usually in price or sales rank).
