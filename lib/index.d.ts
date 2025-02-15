@@ -1,4 +1,7 @@
 export * from './api/KeepaAPI';
+export * from './api/http/KeepaHttpClient';
+export * from './api/http/KeepaHttpClientAxios';
+export * from './api/http/KeepaHttpClientGAS';
 export * from './api/models/AmazonLocale';
 export * from './api/models/BestSellers';
 export * from './api/models/Category';

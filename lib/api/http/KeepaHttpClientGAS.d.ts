@@ -1,4 +1,4 @@
 import { KeepaHttpClient } from './KeepaHttpClient';
-export declare function createKeepaHttpClientAxios({ userAgent, }: {
+export declare function createKeepaHttpClientGAS({ userAgent, }: {
     userAgent: string;
 }): KeepaHttpClient;
