@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { KeepaHttpClient } from './KeepaHttpClient';
 import { createKeepaHttpClientAxios } from './KeepaHttpClientAxios';
 import { createKeepaHttpClientGAS } from './KeepaHttpClientGAS';
@@ -20,7 +19,7 @@ export function createKeepHttpClient(
       if (typeof UrlFetchApp !== 'undefined') {
         return createKeepaHttpClientGAS({ userAgent });
       } else {
-        return createKeepaHttpClientAxios({ axios, userAgent });
+        return createKeepaHttpClientAxios({ userAgent });
       }
   }
 }
