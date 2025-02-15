@@ -1,4 +1,3 @@
-import { ResponseStatus } from '../KeepaAPI';
 import { Product } from './Product';
 import { Category } from './Category';
 import { DealResponse } from './DealResponse';
@@ -9,10 +8,20 @@ import { Notification } from './Notification';
 import { LightningDeal } from './LightningDeal';
 import { RequestError } from './RequestError';
 
-export class Response {
-  constructor(status: ResponseStatus) {
-    this.status = status;
-  }
+export enum ResponseStatus {
+  PENDING,
+  OK,
+  FAIL,
+  NOT_ENOUGH_TOKEN,
+  REQUEST_REJECTED,
+  PAYMENT_REQUIRED,
+  METHOD_NOT_ALLOWED,
+  INTERNAL_SERVER_ERROR,
+}
+
+export interface Response {
+  /** Status of the request. */
+  status: ResponseStatus;
 
   /** Server time when response was sent. */
   timestamp?: number;
@@ -34,7 +43,7 @@ export class Response {
   refillRate?: number;
 
   /** Total time the request took (local, including latencies and connection establishment), in milliseconds. */
-  requestTime = 0;
+  requestTime?: number;
 
   /** Time the request's processing took (remote), in milliseconds. */
   processingTimeInMs?: number;
@@ -44,9 +53,6 @@ export class Response {
 
   /** Tokens used for call */
   tokensConsumed?: number;
-
-  /** Status of the request. */
-  status: ResponseStatus;
 
   /** Results of the product request */
   products?: Product[];
@@ -89,4 +95,7 @@ export class Response {
 
   /** Contains request specific additional output. */
   additional?: string;
+
+  /** Contains the internal error that occurred. */
+  internalError?: Error;
 }

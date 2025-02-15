@@ -1,42 +1,57 @@
+import type { AxiosStatic } from 'axios';
 import { KeepaHttpClient } from './KeepaHttpClient';
-import { Response } from '../models/Response';
 
 export function createKeepaHttpClientAxios({
   userAgent,
 }: {
   userAgent: string;
 }): KeepaHttpClient {
+  const getAxios = async (): Promise<AxiosStatic> => {
+    try {
+      return (await import('axios')).default;
+    } catch (error) {
+      throw new Error(
+        'axios is not available. Please install axios if using Node.js.'
+      );
+    }
+  };
+
   return async ({
     method,
     url,
     data,
     timeout,
   }: {
-    method?: 'GET' | 'POST';
+    method: 'get' | 'post';
     url: string;
     data?: string;
     timeout?: number;
-  }): Promise<Response | never> => {
+  }): Promise<{ status: number; payload: Record<string, unknown> } | never> => {
+    const axios = await getAxios();
     try {
-      const axios = await import('axios');
-      const response = await axios.default({
+      const response = await axios({
         method,
         url,
         headers: {
           'User-Agent': userAgent,
           'Accept-Encoding': 'gzip',
-          ...(method === 'POST' ? { 'Content-Type': 'application/json' } : {}),
+          ...(method === 'post' ? { 'Content-Type': 'application/json' } : {}),
         },
         data,
         timeout,
         decompress: true,
       });
-
-      return response.data as Response;
+      return { status: response.status, payload: response.data };
     } catch (error) {
-      throw new Error(
-        'axios is not available. Please install axios if using Node.js.'
-      );
+      if (error instanceof axios.AxiosError) {
+        if (error.response && 'tokensLeft' in error.response.data) {
+          return {
+            status: error.response.status,
+            payload: error.response.data,
+          };
+        }
+      }
+      throw error;
     }
   };
 }

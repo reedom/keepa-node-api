@@ -1,7 +1,9 @@
-import { Response } from '../models/Response';
 export type KeepaHttpClient = (params: {
-    method?: 'GET' | 'POST';
+    method: 'get' | 'post';
     url: string;
     data?: string;
     timeout?: number;
-}) => Promise<Response | never>;
+}) => Promise<{
+    status: number;
+    payload: Record<string, unknown>;
+} | never>;

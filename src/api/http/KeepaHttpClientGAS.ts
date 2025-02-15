@@ -1,5 +1,4 @@
 import { KeepaHttpClient } from './KeepaHttpClient';
-import { Response } from '../models/Response';
 
 export function createKeepaHttpClientGAS({
   userAgent,
@@ -11,11 +10,11 @@ export function createKeepaHttpClientGAS({
     url,
     data,
   }: {
-    method?: 'GET' | 'POST';
+    method: 'get' | 'post';
     url: string;
     data?: string;
     timeout?: number;
-  }): Promise<Response | never> => {
+  }): Promise<{ status: number; payload: Record<string, unknown> } | never> => {
     const res = UrlFetchApp.fetch(url, {
       method: (method ?? 'GET').toLocaleLowerCase() as 'get' | 'post',
       contentType: 'application/json',
@@ -23,33 +22,14 @@ export function createKeepaHttpClientGAS({
       headers: {
         'User-Agent': userAgent,
         'Accept-Encoding': 'gzip',
-        ...(method === 'POST' ? { 'Content-Type': 'application/json' } : {}),
+        ...(method === 'post' ? { 'Content-Type': 'application/json' } : {}),
       },
       muteHttpExceptions: true,
     });
 
-    const httpCode = res.getResponseCode();
-    if (res.getResponseCode() < 300) {
-      return Promise.resolve(JSON.parse(res.getContentText()) as Response);
-    }
-
-    const response = new Response(res.getResponseCode());
-    try {
-      const text = res.getContentText();
-      Logger.log(`request error: [${httpCode}] ${text}`);
-      response.error = {
-        type: `HTTP ${httpCode}`,
-        message: text,
-        details: '',
-      };
-    } catch (e) {
-      Logger.log(`request error: [${httpCode}] (${String(e)})`);
-      response.error = {
-        type: `HTTP ${httpCode}`,
-        message: '',
-        details: '',
-      };
-    }
-    return Promise.resolve(response);
+    return Promise.resolve({
+      status: res.getResponseCode(),
+      payload: JSON.parse(res.getContentText()),
+    });
   };
 }

@@ -1,4 +1,3 @@
-import { ResponseStatus } from '../KeepaAPI';
 import { Product } from './Product';
 import { Category } from './Category';
 import { DealResponse } from './DealResponse';
@@ -8,8 +7,19 @@ import { Tracking } from './Tracking';
 import { Notification } from './Notification';
 import { LightningDeal } from './LightningDeal';
 import { RequestError } from './RequestError';
-export declare class Response {
-    constructor(status: ResponseStatus);
+export declare enum ResponseStatus {
+    PENDING = 0,
+    OK = 1,
+    FAIL = 2,
+    NOT_ENOUGH_TOKEN = 3,
+    REQUEST_REJECTED = 4,
+    PAYMENT_REQUIRED = 5,
+    METHOD_NOT_ALLOWED = 6,
+    INTERNAL_SERVER_ERROR = 7
+}
+export interface Response {
+    /** Status of the request. */
+    status: ResponseStatus;
     /** Server time when response was sent. */
     timestamp?: number;
     /**
@@ -26,15 +36,13 @@ export declare class Response {
     /** Token refill rate per minute. */
     refillRate?: number;
     /** Total time the request took (local, including latencies and connection establishment), in milliseconds. */
-    requestTime: number;
+    requestTime?: number;
     /** Time the request's processing took (remote), in milliseconds. */
     processingTimeInMs?: number;
     /** Token flow reduction */
     tokenFlowReduction?: number;
     /** Tokens used for call */
     tokensConsumed?: number;
-    /** Status of the request. */
-    status: ResponseStatus;
     /** Results of the product request */
     products?: Product[];
     /** Results of the category lookup and search */
@@ -63,4 +71,6 @@ export declare class Response {
     error?: RequestError;
     /** Contains request specific additional output. */
     additional?: string;
+    /** Contains the internal error that occurred. */
+    internalError?: Error;
 }
