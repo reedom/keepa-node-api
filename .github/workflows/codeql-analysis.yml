@@ -9,10 +9,14 @@ permissions:
 
 on:
   push:
-    branches: [main]
+    branches:
+      - nowhere
+      # - main
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [main]
+    branches:
+      - nowhere
+      # - main
   schedule:
     - cron: "36 7 * * 6"
 
