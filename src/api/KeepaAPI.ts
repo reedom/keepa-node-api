@@ -65,10 +65,12 @@ export class KeepaAPI {
       throw new Error('Invalid request object');
     }
 
-    const queryParams = new URLSearchParams({
-      key: this.accessKey,
+    const queryParams = Object.entries({
       ...r.parameter,
-    }).toString();
+      key: this.accessKey,
+    })
+      .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+      .join('&');
     const url = `https://api.keepa.com/${r.path}?${queryParams}`;
 
     try {
