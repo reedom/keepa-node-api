@@ -1,18 +1,7 @@
 import { KeepaHttpClient } from './http/KeepaHttpClient';
 import { createKeepHttpClient } from './http/keepaHttpClientFactory';
 import { Request } from './models/Request';
-import { Response } from './models/Response';
-
-export enum ResponseStatus {
-  PENDING,
-  OK,
-  FAIL,
-  NOT_ENOUGH_TOKEN,
-  REQUEST_REJECTED,
-  PAYMENT_REQUIRED,
-  METHOD_NOT_ALLOWED,
-  INTERNAL_SERVER_ERROR,
-}
+import { Response, ResponseStatus } from './models/Response';
 
 export class KeepaAPI {
   private accessKey: string;
@@ -73,44 +62,64 @@ export class KeepaAPI {
       .join('&');
     const url = `https://api.keepa.com/${r.path}?${queryParams}`;
 
-    try {
-      return this.httpClient({
-        method: r.postData ? 'GET' : 'POST',
-        url,
-        data: r.postData,
-        timeout: timeout ?? this.defaultTimeout,
-      });
-    } catch (error) {
-      throw this.handleError(error);
-    }
+    const { status, payload } = await this.httpClient({
+      method: r.postData ? 'get' : 'post',
+      url,
+      data: r.postData,
+      timeout: timeout ?? this.defaultTimeout,
+    });
+    return this.toResponse({ status, payload });
   }
 
   public async sendRequestWithRetry(
     r: Request,
     { timeout }: { timeout?: number } = {}
   ): Promise<Response> {
-    let attempt = 0;
-    const delay = 0;
-
-    while (attempt < 5) {
-      try {
-        return await this.sendRequest(r, { timeout });
-      } catch (error) {
-        console.log(error);
-        throw error;
-        // if (error.response?.status === 429) {
-        //   delay = Math.min(delay * 2 + 100, this.maxDelay);
-        //   await new Promise((resolve) => setTimeout(resolve, delay));
-        // } else {
-        //   throw error;
-        // }
+    for (let attempt = 0; attempt < 5; attempt++) {
+      let delay = 0;
+      const response = await this.sendRequest(r, { timeout });
+      switch (response.status) {
+        case ResponseStatus.OK:
+        default:
+          return response;
+        case ResponseStatus.NOT_ENOUGH_TOKEN:
+          delay = Math.min(delay * 2 + 100, this.maxDelay);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          break;
       }
-      attempt++;
     }
     throw new Error('Request failed after multiple retries');
   }
 
-  private handleError(error: any): Response {
-    return new Response(ResponseStatus.FAIL);
+  private toResponse({
+    status,
+    payload,
+  }: {
+    status: number;
+    payload: Record<string, unknown>;
+  }): Response {
+    const toResponseStatus = (status: number): ResponseStatus => {
+      switch (status) {
+        case 200:
+          return ResponseStatus.OK;
+        case 400:
+          return ResponseStatus.REQUEST_REJECTED;
+        case 402:
+          return ResponseStatus.PAYMENT_REQUIRED;
+        case 405:
+          return ResponseStatus.METHOD_NOT_ALLOWED;
+        case 429:
+          return ResponseStatus.NOT_ENOUGH_TOKEN;
+        case 500:
+          return ResponseStatus.INTERNAL_SERVER_ERROR;
+        default:
+          return 400 <= status ? ResponseStatus.FAIL : ResponseStatus.OK;
+      }
+    };
+
+    return {
+      status: toResponseStatus(status),
+      ...payload,
+    } as Response;
   }
 }
