@@ -183,7 +183,7 @@ export class TrackingThresholdValue {
     deltasAreBetweenNotifications = false
   ) {
     this.domain = domainId as number;
-    this.csvType = CsvType[csvType].index;
+    this.csvType = csvType.index;
     this.thresholdValue = thresholdValue;
     this.isDrop = isDrop;
     this.minDeltaAbsolute = minDeltaAbsolute;
@@ -217,7 +217,7 @@ export class TrackingNotifyIf {
     notifyIfType: NotifyIfType
   ) {
     this.domain = domainId as number;
-    this.csvType = CsvType[csvType].index;
+    this.csvType = csvType.index;
     this.notifyIfType = notifyIfType as number;
   }
 }

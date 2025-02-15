@@ -895,10 +895,18 @@ export interface VariationAttributeObject {
   value: string;
 }
 
+export interface CsvType {
+  index: number;
+  isPrice: boolean;
+  isDealRelevant: boolean;
+  isWithShipping: boolean;
+  isExtraData: boolean;
+}
+
 /**
  * Enum representing CSV types for various price histories and product attributes.
  */
-export const CsvType = {
+export const CsvTypes: Record<string, CsvType> = {
   /**
    * Amazon price history
    */
@@ -1079,17 +1087,15 @@ export const CsvType = {
   },
 } as const;
 
-export type CsvType = keyof typeof CsvType;
-
 /**
  * Returns the corresponding CsvType by index.
  * @param index - The index value to match.
  * @returns The corresponding CsvType key.
  */
-export function getCsvTypeFromIndex(index: number): CsvType | undefined {
-  return Object.keys(CsvType).find(
-    key => CsvType[key as CsvType].index === index
-  ) as CsvType | undefined;
+export function getCsvTypeFromIndex(index: number): string | undefined {
+  return (
+    Object.entries(CsvTypes).find(([, v]) => v.index === index)?.[0] ?? 'AMAZON'
+  );
 }
 
 /**

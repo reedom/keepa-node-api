@@ -756,181 +756,23 @@ export interface VariationAttributeObject {
      */
     value: string;
 }
+export interface CsvType {
+    index: number;
+    isPrice: boolean;
+    isDealRelevant: boolean;
+    isWithShipping: boolean;
+    isExtraData: boolean;
+}
 /**
  * Enum representing CSV types for various price histories and product attributes.
  */
-export declare const CsvType: {
-    /**
-     * Amazon price history
-     */
-    readonly AMAZON: {
-        readonly index: 0;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: false;
-    };
-    /**
-     * Marketplace/3rd party New price history - Amazon is considered to be part of the marketplace as well,
-     * so if Amazon has the overall lowest new (!) price, the marketplace new price in the corresponding time interval
-     * will be identical to the Amazon price (except if there is only one marketplace offer).
-     * Shipping and Handling costs not included!
-     */
-    readonly NEW: {
-        readonly index: 1;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: false;
-    };
-    /**
-     * Marketplace/3rd party Used price history
-     */
-    readonly USED: {
-        readonly index: 2;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: false;
-    };
-    /**
-     * Sales Rank history. Not every product has a Sales Rank.
-     */
-    readonly SALES: {
-        readonly index: 3;
-        readonly isPrice: false;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: false;
-    };
-    /**
-     * List Price history
-     */
-    readonly LISTPRICE: {
-        readonly index: 4;
-        readonly isPrice: true;
-        readonly isDealRelevant: false;
-        readonly isWithShipping: false;
-        readonly isExtraData: false;
-    };
-    /**
-     * Collectible Price history
-     */
-    readonly COLLECTIBLE: {
-        readonly index: 5;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: false;
-    };
-    /**
-     * Refurbished Price history
-     */
-    readonly REFURBISHED: {
-        readonly index: 6;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: false;
-    };
-    /**
-     * 3rd party (not including Amazon) New price history including shipping costs, only fulfilled by merchant (FBM).
-     */
-    readonly NEW_FBM_SHIPPING: {
-        readonly index: 7;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: true;
-        readonly isExtraData: true;
-    };
-    /**
-     * 3rd party (not including Amazon) New price history including shipping costs, only fulfilled by merchant (FBM).
-     */
-    readonly LIGHTNING_DEAL: {
-        readonly index: 8;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: false;
-    };
-    /**
-     * Amazon Warehouse Deals price history. Mostly of used condition, rarely new.
-     */
-    readonly WAREHOUSE: {
-        readonly index: 9;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: true;
-    };
-    /**
-     * Price history of the lowest 3rd party (not including Amazon/Warehouse) New offer that is fulfilled by Amazon
-     */
-    readonly NEW_FBA: {
-        readonly index: 10;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: true;
-    };
-    /**
-     * The product's rating history. A rating is an integer from 0 to 50 (e.g. 45 = 4.5 stars)
-     */
-    readonly RATING: {
-        readonly index: 16;
-        readonly isPrice: false;
-        readonly isDealRelevant: false;
-        readonly isWithShipping: false;
-        readonly isExtraData: true;
-    };
-    /**
-     * The product's review count history.
-     */
-    readonly COUNT_REVIEWS: {
-        readonly index: 17;
-        readonly isPrice: false;
-        readonly isDealRelevant: false;
-        readonly isWithShipping: false;
-        readonly isExtraData: true;
-    };
-    /**
-     * The price history of the buy box. If no offer qualified for the buy box the price has the value -1. Including shipping costs.
-     */
-    readonly BUY_BOX_SHIPPING: {
-        readonly index: 18;
-        readonly isPrice: true;
-        readonly isDealRelevant: false;
-        readonly isWithShipping: true;
-        readonly isExtraData: true;
-    };
-    /**
-     * The price history of the Used buy box (any sub-condition). If no offer qualified for the used buy box the price has the value -1. Including shipping costs.
-     */
-    readonly BUY_BOX_USED_SHIPPING: {
-        readonly index: 32;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: true;
-        readonly isExtraData: true;
-    };
-    /**
-     * Price history of the lowest Prime exclusive New offer.
-     */
-    readonly PRIME_EXCL: {
-        readonly index: 33;
-        readonly isPrice: true;
-        readonly isDealRelevant: true;
-        readonly isWithShipping: false;
-        readonly isExtraData: true;
-    };
-};
-export type CsvType = keyof typeof CsvType;
+export declare const CsvTypes: Record<string, CsvType>;
 /**
  * Returns the corresponding CsvType by index.
  * @param index - The index value to match.
  * @returns The corresponding CsvType key.
  */
-export declare function getCsvTypeFromIndex(index: number): CsvType | undefined;
+export declare function getCsvTypeFromIndex(index: number): string | undefined;
 /**
  * Enum representing the availability of an Amazon offer.
  */
