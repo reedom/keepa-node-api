@@ -28,7 +28,7 @@ export class KeepaAPI {
     defaultTimeout = 120000,
   }: {
     accessKey: string;
-    httpClient: 'auto' | 'axios' | 'UrlFetchApp' | KeepaHttpClient;
+    httpClient?: 'auto' | 'axios' | 'UrlFetchApp' | KeepaHttpClient;
     userAgent?: string;
     maxDelay?: number;
     defaultTimeout?: number;
