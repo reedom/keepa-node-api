@@ -30,9 +30,7 @@ export function createKeepaHttpClientGAS({
 
     const httpCode = res.getResponseCode();
     if (res.getResponseCode() < 300) {
-      const gzipped = Utilities.newBlob(res.getContent());
-      const json = Utilities.ungzip(gzipped).getDataAsString();
-      return Promise.resolve(JSON.parse(json) as Response);
+      return Promise.resolve(JSON.parse(res.getContentText()) as Response);
     }
 
     const response = new Response(res.getResponseCode());
