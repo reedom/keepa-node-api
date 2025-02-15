@@ -1,4 +1,5 @@
 import { KeepaHttpClient } from './http/KeepaHttpClient';
+import { createKeepHttpClient } from './http/keepaHttpClientFactory';
 import { Request } from './models/Request';
 import { Response } from './models/Response';
 
@@ -17,20 +18,25 @@ export class KeepaAPI {
   private accessKey: string;
   private httpClient: KeepaHttpClient;
   private maxDelay: number;
-  private timeout: number;
+  private defaultTimeout: number;
 
-  constructor(
-    httpAgent: KeepaHttpClient,
-    {
-      accessKey,
-      maxDelay = 60000,
-      timeout = 120000,
-    }: { accessKey: string; maxDelay?: number; timeout?: number }
-  ) {
+  constructor({
+    accessKey,
+    httpClient = 'auto',
+    userAgent = 'KEEPA-JAVA Framework-0.1.0',
+    maxDelay = 60000,
+    defaultTimeout = 120000,
+  }: {
+    accessKey: string;
+    httpClient: 'auto' | 'axios' | 'UrlFetchApp' | KeepaHttpClient;
+    userAgent?: string;
+    maxDelay?: number;
+    defaultTimeout?: number;
+  }) {
     this.accessKey = accessKey;
-    this.httpClient = httpAgent;
+    this.httpClient = createKeepHttpClient(httpClient, userAgent);
     this.maxDelay = maxDelay;
-    this.timeout = timeout;
+    this.defaultTimeout = defaultTimeout;
   }
 
   public async sendRequest(
@@ -52,7 +58,7 @@ export class KeepaAPI {
         method: r.postData ? 'GET' : 'POST',
         url,
         data: r.postData,
-        timeout: timeout ?? this.timeout,
+        timeout: timeout ?? this.defaultTimeout,
       });
     } catch (error) {
       throw this.handleError(error);
