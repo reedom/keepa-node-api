@@ -18,7 +18,7 @@ export declare class KeepaAPI {
     private defaultTimeout;
     constructor({ accessKey, httpClient, userAgent, maxDelay, defaultTimeout, }: {
         accessKey: string;
-        httpClient: 'auto' | 'axios' | 'UrlFetchApp' | KeepaHttpClient;
+        httpClient?: 'auto' | 'axios' | 'UrlFetchApp' | KeepaHttpClient;
         userAgent?: string;
         maxDelay?: number;
         defaultTimeout?: number;
