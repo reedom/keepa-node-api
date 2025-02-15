@@ -1,6 +1,4 @@
-import { AxiosInstance } from 'axios';
 import { KeepaHttpClient } from './KeepaHttpClient';
-export declare function createKeepaHttpClientAxios({ axios, userAgent, }: {
-    axios: AxiosInstance;
+export declare function createKeepaHttpClientAxios({ userAgent, }: {
     userAgent: string;
 }): KeepaHttpClient;
