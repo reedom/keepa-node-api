@@ -49,6 +49,7 @@
     "@types/node": "^20.6.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "axios": "^1.7.9",
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
@@ -63,6 +64,14 @@
     "vite": "^6.1.0",
     "vitest": "^3.0.5",
     "vitest-mock-extended": "^2.0.2"
+  },
+  "peerDependencies": {
+    "axios": "*"
+  },
+  "peerDependenciesMeta": {
+    "axios": {
+      "optional": true
+    }
   },
   "lint-staged": {
     "*.ts": "eslint --cache --cache-location .eslintcache --fix"
