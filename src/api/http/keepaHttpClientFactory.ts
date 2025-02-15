@@ -13,7 +13,7 @@ export function createKeepHttpClient(
 
   switch (httpClient) {
     case 'axios':
-      return createKeepaHttpClientAxios({ axios, userAgent });
+      return createKeepaHttpClientAxios({ userAgent });
     case 'gas':
       return createKeepaHttpClientGAS({ userAgent });
     case 'auto':

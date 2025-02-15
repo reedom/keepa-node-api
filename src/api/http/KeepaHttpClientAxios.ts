@@ -1,12 +1,9 @@
-import { AxiosInstance } from 'axios';
 import { KeepaHttpClient } from './KeepaHttpClient';
 import { Response } from '../models/Response';
 
 export function createKeepaHttpClientAxios({
-  axios,
   userAgent,
 }: {
-  axios: AxiosInstance;
   userAgent: string;
 }): KeepaHttpClient {
   return async ({
@@ -20,19 +17,26 @@ export function createKeepaHttpClientAxios({
     data?: string;
     timeout?: number;
   }): Promise<Response | never> => {
-    const response = await axios({
-      method,
-      url,
-      headers: {
-        'User-Agent': userAgent,
-        'Accept-Encoding': 'gzip',
-        ...(method === 'POST' ? { 'Content-Type': 'application/json' } : {}),
-      },
-      data,
-      timeout,
-      decompress: true,
-    });
+    try {
+      const axios = await import('axios');
+      const response = await axios.default({
+        method,
+        url,
+        headers: {
+          'User-Agent': userAgent,
+          'Accept-Encoding': 'gzip',
+          ...(method === 'POST' ? { 'Content-Type': 'application/json' } : {}),
+        },
+        data,
+        timeout,
+        decompress: true,
+      });
 
-    return response.data as Response;
+      return response.data as Response;
+    } catch (error) {
+      throw new Error(
+        'axios is not available. Please install axios if using Node.js.'
+      );
+    }
   };
 }
