@@ -1,4 +1,4 @@
-export interface Seller {
+export type Seller = {
   /** States the time we have started tracking this seller, in Keepa Time minutes. */
   trackedSince: number;
 
@@ -100,25 +100,25 @@ export interface Seller {
 
   /** Ratings in the last 30 days. */
   ratingsLast30Days: number;
-}
+};
 
-export interface MerchantBrandStatistics {
+export type MerchantBrandStatistics = {
   brand: string;
   productCount: number;
   avg30SalesRank: number;
   productCountWithAmazonOffer: number;
-}
+};
 
-export interface MerchantCategoryStatistics {
+export type MerchantCategoryStatistics = {
   catId: number;
   productCount: number;
   avg30SalesRank: number;
   productCountWithAmazonOffer: number;
-}
+};
 
-export interface FeedbackObject {
+export type FeedbackObject = {
   rating: number;
   date: number;
   feedback?: string;
   isStriked: boolean;
-}
+};

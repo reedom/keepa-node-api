@@ -1,8 +1,8 @@
 /**
  * Contains information about an API error.
  */
-export interface RequestError {
+export type RequestError = {
   type: string;
   message: string;
   details: string;
-}
+};

@@ -19,7 +19,7 @@ export enum ResponseStatus {
   INTERNAL_SERVER_ERROR,
 }
 
-export interface Response {
+export type Response = {
   /** Status of the request. */
   status: ResponseStatus;
 
@@ -98,4 +98,4 @@ export interface Response {
 
   /** Contains the internal error that occurred. */
   internalError?: Error;
-}
+};

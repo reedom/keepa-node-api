@@ -1,7 +1,7 @@
 /**
  * Represents a price alert
  */
-export interface Notification {
+export type Notification = {
   /**
    * The notified product ASIN
    */
@@ -62,4 +62,4 @@ export interface Notification {
    * The meta data of the tracking.
    */
   metaData: string;
-}
+};
