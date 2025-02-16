@@ -8,7 +8,7 @@ export type Seller = {
     /** The name of seller. Example: "Amazon Warehouse Deals" */
     sellerName?: string;
     /** Two dimensional history array that contains history data for this seller. */
-    csv?: number[][];
+    csv?: number[][] | undefined;
     /** States the time of our last update of this seller, in Keepa Time minutes. */
     lastUpdate: number;
     /** Indicates whether or not this seller is identified as a scammer. */

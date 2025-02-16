@@ -12,7 +12,7 @@ export type Seller = {
   sellerName?: string;
 
   /** Two dimensional history array that contains history data for this seller. */
-  csv?: number[][];
+  csv?: number[][] | undefined;
 
   /** States the time of our last update of this seller, in Keepa Time minutes. */
   lastUpdate: number;

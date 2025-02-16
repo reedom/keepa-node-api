@@ -55,7 +55,7 @@ export type Response = {
   tokensConsumed?: number;
 
   /** Results of the product request */
-  products?: Product[];
+  products?: Product[] | undefined;
 
   /** Results of the category lookup and search */
   categories?: Record<number, Category>;
@@ -64,13 +64,13 @@ export type Response = {
   categoryParents?: Record<number, Category>;
 
   /** Results of the deals request */
-  deals?: DealResponse;
+  deals?: DealResponse | undefined;
 
   /** Results of the best sellers request */
   bestSellersList?: BestSellers;
 
   /** Results of the deals request */
-  sellers?: Record<string, Seller>;
+  sellers?: Record<string, Seller> | undefined;
 
   /** Results of get and add tracking operations */
   trackings?: Tracking[];
