@@ -17,7 +17,7 @@ export declare enum ResponseStatus {
     METHOD_NOT_ALLOWED = 6,
     INTERNAL_SERVER_ERROR = 7
 }
-export interface Response {
+export type Response = {
     /** Status of the request. */
     status: ResponseStatus;
     /** Server time when response was sent. */
@@ -73,4 +73,4 @@ export interface Response {
     additional?: string;
     /** Contains the internal error that occurred. */
     internalError?: Error;
-}
+};

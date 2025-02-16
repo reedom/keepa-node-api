@@ -2,7 +2,7 @@
  * Contains statistic values.
  * Only set if the stats parameter was used in the Product Request. Part of the {@link Product}
  */
-export interface Stats {
+export type Stats = {
     /**
      * Contains the prices / ranks of the product of the time we last updated it.
      * Uses {@link CsvType} indexing.
@@ -122,11 +122,11 @@ export interface Stats {
      * Examples: `0 = never was out of stock`, `100 = was out of stock 100% of the time`, `25 = was out of stock 25% of the time`
      */
     outOfStockPercentage30?: number[];
-}
+};
 /**
  * Contains Buy Box statistics for the specified interval.
  */
-export interface BuyBoxStatsObject {
+export type BuyBoxStatsObject = {
     /** An approximation of the percentage the seller won the buy box. */
     percentageWon: number;
     /** Average price of the Buy Box offer of this seller. */
@@ -137,4 +137,4 @@ export interface BuyBoxStatsObject {
     isFBA: boolean;
     /** Last time the seller won the buy box. */
     lastSeen: number;
-}
+};

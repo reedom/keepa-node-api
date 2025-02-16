@@ -21,7 +21,7 @@
  * - If there are almost identical offers (same seller, same condition, same shipping type, and same condition text),
  *   we only provide access to the one with the cheapest price. We do not list duplicates.
  */
-export declare class Offer {
+export type Offer = {
     /**
      * Unique ID of this offer (in the scope of the product).
      * Not related to the offer IDs used by Amazon, as those are user-specific and only valid for a short time.
@@ -128,7 +128,7 @@ export declare class Offer {
      * Format: `[Keepa time minutes, coupon, ...]`
      */
     couponHistory?: number[];
-}
+};
 /**
  * The condition of the offered product.
  */
