@@ -1,6 +1,6 @@
 import { VariationAttributeObject } from './Product';
 
-export interface LightningDeal {
+export type LightningDeal = {
   /**
    * The domainId of the products Amazon locale
    * {@link AmazonLocale}
@@ -84,7 +84,7 @@ export interface LightningDeal {
 
   /** The dimension attributes of this deal. */
   variation?: VariationAttributeObject[];
-}
+};
 
 enum DealState {
   AVAILABLE,

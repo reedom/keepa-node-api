@@ -1,7 +1,7 @@
 /**
  * Category structure representing an Amazon category.
  */
-export interface Category {
+export type Category = {
     /**
      * Integer value for the Amazon locale this category belongs to.
      * @see AmazonLocale
@@ -59,4 +59,4 @@ export interface Category {
      * rather than serving promotional purposes (for example, 'Specialty Stores').
      */
     isBrowseNode: boolean;
-}
+};

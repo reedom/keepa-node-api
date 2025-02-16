@@ -8,7 +8,7 @@ import { Deal } from './Deal';
  * If the root category of a product could not be determined, it will be listed in the category with the name "?"
  * with the id `9223372036854775807`.
  */
-export interface DealResponse {
+export type DealResponse = {
     /**
      * Ordered array of all deal objects matching your query.
      */
@@ -29,4 +29,4 @@ export interface DealResponse {
      * Contains how many deal products in the respective root category are found.
      */
     categoryCount?: number[];
-}
+};

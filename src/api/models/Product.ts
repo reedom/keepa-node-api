@@ -1,12 +1,12 @@
 import { Offer } from './Offer';
 import { Stats } from './Stats';
 
-export interface CategoryTreeEntry {
+export type CategoryTreeEntry = {
   catId: number;
   name: string;
-}
+};
 
-export interface Product {
+export type Product = {
   /**
    * The ASIN of the product.
    */
@@ -752,12 +752,12 @@ export interface Product {
    * A price of '-1' means that there was no offer at the given timestamp (e.g. out of stock).
    */
   csv?: number[][];
-}
+};
 
 /**
  * Represents a video associated with a product.
  */
-export interface Video {
+export type Video = {
   title: string;
 
   /**
@@ -773,7 +773,7 @@ export interface Video {
   creator: VideoCreatorType;
   name: string;
   url: string;
-}
+};
 
 /**
  * Enum representing the video creator type.
@@ -793,61 +793,61 @@ export enum VideoCreatorType {
 /**
  * Represents A+ Content of a product.
  */
-export interface APlus {
+export type APlus = {
   module?: APlusModule[];
   fromManufacturer: boolean;
-}
+};
 
 /**
  * Represents an A+ Content module.
  */
-export interface APlusModule {
+export type APlusModule = {
   text?: string[];
   image?: string[];
   video?: string[];
-}
+};
 
 /**
  * Represents rental price details.
  */
-export interface RentalObject {
+export type RentalObject = {
   initialPrice: number;
   shortExtnPrice: number;
   longExtnPrice: number;
   fullPrice: number;
-}
+};
 
 /**
  * Represents unit count information.
  */
-export interface UnitCountObject {
+export type UnitCountObject = {
   unitValue?: number;
   unitType?: string;
   eachUnitCount?: number;
-}
+};
 
 /**
  * Contains detailed FBA fees. If the total fee is 0 the product does not have (valid) dimensions and thus the fee can not be calculated.
  */
-export interface FBAFeesObject {
+export type FBAFeesObject = {
   storageFee: number;
   storageFeeTax: number;
   pickAndPackFee: number;
   pickAndPackFeeTax: number;
-}
+};
 
 /**
  * Represents hazardous material information.
  */
-export interface HazardousMaterial {
+export type HazardousMaterial = {
   aspect: string;
   value: string;
-}
+};
 
 /**
  * Represents a promotion for a product.
  */
-export interface PromotionObject {
+export type PromotionObject = {
   /**
    * The type of promotion.
    */
@@ -855,7 +855,7 @@ export interface PromotionObject {
 
   amount: number;
   discountPercent: number;
-}
+};
 
 /**
  * Represents the type of promotion.
@@ -868,7 +868,7 @@ export enum PromotionType {
 /**
  * Represents a product variation.
  */
-export interface VariationObject {
+export type VariationObject = {
   /**
    * Variation ASIN.
    */
@@ -878,12 +878,12 @@ export interface VariationObject {
    * This variation ASIN's dimension attributes.
    */
   attributes?: VariationAttributeObject[];
-}
+};
 
 /**
  * Represents a variation attribute.
  */
-export interface VariationAttributeObject {
+export type VariationAttributeObject = {
   /**
    * Dimension type, e.g., Color.
    */
@@ -893,15 +893,15 @@ export interface VariationAttributeObject {
    * Dimension value, e.g., Red.
    */
   value: string;
-}
+};
 
-export interface CsvType {
+export type CsvType = {
   index: number;
   isPrice: boolean;
   isDealRelevant: boolean;
   isWithShipping: boolean;
   isExtraData: boolean;
-}
+};
 
 /**
  * Enum representing CSV types for various price histories and product attributes.

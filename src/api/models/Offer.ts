@@ -21,7 +21,7 @@
  * - If there are almost identical offers (same seller, same condition, same shipping type, and same condition text),
  *   we only provide access to the one with the cheapest price. We do not list duplicates.
  */
-export class Offer {
+export type Offer = {
   /**
    * Unique ID of this offer (in the scope of the product).
    * Not related to the offer IDs used by Amazon, as those are user-specific and only valid for a short time.
@@ -36,7 +36,7 @@ export class Offer {
    *
    * @example 2700145
    */
-  lastSeen = 0;
+  lastSeen: number;
 
   /**
    * The seller ID of the merchant.
@@ -63,7 +63,7 @@ export class Offer {
   /**
    * The {@link OfferCondition} condition of the offered product.
    */
-  condition = 0;
+  condition: number;
 
   /**
    * The describing text of the condition.
@@ -73,44 +73,44 @@ export class Offer {
   conditionComment?: string;
 
   /** Whether or not this offer is available via Prime shipping. Can be used as an FBA ("Fulfillment by Amazon") indicator as well. */
-  isPrime = false;
+  isPrime: boolean;
 
   /** If the price of this offer is hidden on Amazon due to a MAP ("minimum advertised price") restriction. */
-  isMAP = false;
+  isMAP: boolean;
 
   /**
    * Indicates whether or not the offer is currently shippable.
    * If not, this could mean, for example, that it is temporarily out of stock or a pre-order.
    */
-  isShippable = false;
+  isShippable: boolean;
 
   /** Indicates whether or not the offer is an Add-on item. */
-  isAddonItem = false;
+  isAddonItem: boolean;
 
   /** Indicates whether or not the offer is a pre-order. */
-  isPreorder = false;
+  isPreorder: boolean;
 
   /** Indicates whether or not the offer is an Amazon Warehouse Deal. */
-  isWarehouseDeal = false;
+  isWarehouseDeal: boolean;
 
   /** Indicates whether or not our system identified that the offering merchant attempts to scam users. */
-  isScam = false;
+  isScam: boolean;
 
   /** Indicates whether or not the offer ships from China. */
-  shipsFromChina = false;
+  shipsFromChina: boolean;
 
   /**
    * True if the seller is Amazon (e.g. "Amazon.com").
    *
    * Note: Amazon's Warehouse Deals seller account or other accounts Amazon is maintaining under a different name are not considered to be Amazon.
    */
-  isAmazon = false;
+  isAmazon: boolean;
 
   /** Whether or not this offer is fulfilled by Amazon (FBA). */
-  isFBA = false;
+  isFBA: boolean;
 
   /** This offer has a discounted Prime exclusive price. A Prime exclusive offer can only be ordered if the buyer has an active Prime subscription. */
-  isPrimeExcl = false;
+  isPrimeExcl: boolean;
 
   /**
    * Contains the Prime exclusive price history of this offer, if available.
@@ -130,7 +130,7 @@ export class Offer {
   stockCSV?: number[];
 
   /** Minimum order quantity. `0` if unknown. */
-  minOrderQty = 0;
+  minOrderQty: number;
 
   /**
    * Contains one-time coupon details of this offer. Undefined if none is available.
@@ -149,7 +149,7 @@ export class Offer {
    * Format: `[Keepa time minutes, coupon, ...]`
    */
   couponHistory?: number[];
-}
+};
 
 /**
  * The condition of the offered product.

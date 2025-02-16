@@ -3,7 +3,7 @@ import { CsvType } from './Product';
 /**
  * Represents a Tracking Object.
  */
-export interface Tracking {
+export type Tracking = {
     /**
      * The tracked product ASIN.
      */
@@ -77,7 +77,7 @@ export interface Tracking {
      * Used to assign some text to this tracking, like a user reference or a memo.
      */
     metaData?: string;
-}
+};
 /**
  * Available notification channels.
  */
