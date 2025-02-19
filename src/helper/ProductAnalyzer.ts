@@ -12,18 +12,23 @@ export class ProductAnalyzer {
    * @param type - The type of the CSV data. If the CSV includes shipping costs, the extreme point will be the landing price (price + shipping).
    * @returns Extreme points (time, lowest value/price, time, highest value/price) in the given interval or [-1, -1, -1, -1] if no extreme point was found.
    */
-  static getExtremePointsInIntervalWithTime(
-    csv: number[],
-    start: number,
-    end: number,
-    type: CsvType
-  ): number[] {
+  static getExtremePointsInIntervalWithTime({
+    csv,
+    start,
+    end,
+    type,
+  }: {
+    csv: number[] | null;
+    start: number;
+    end: number;
+    type: CsvType;
+  }): number[] {
     if (!csv || end <= start || csv.length < (type.isWithShipping ? 6 : 4)) {
       return [-1, -1, -1, -1];
     }
 
     const extremeValue = [-1, Number.MAX_VALUE, -1, -1];
-    const lastTime = this.getLastTime(csv, type);
+    const lastTime = this.getLastTime({ csv, type });
     const firstTime = csv[0];
     if (lastTime === -1 || firstTime === -1 || end < firstTime) {
       return [-1, -1, -1, -1];
@@ -98,7 +103,13 @@ export class ProductAnalyzer {
    * @param type - the type of the csv data. If the csv includes shipping costs the extreme point will be the landing price (price + shipping).
    * @returns the last value/price change delta. If the csv includes shipping costs it will be the delta of the the landing prices (price + shipping).
    */
-  static getDeltaLast(csv: number[], type: CsvType): number {
+  static getDeltaLast({
+    csv,
+    type,
+  }: {
+    csv: number[] | null;
+    type: CsvType;
+  }): number {
     if (type.isWithShipping) {
       if (
         !csv ||
@@ -138,7 +149,13 @@ export class ProductAnalyzer {
    * @param type - the type of the csv data.
    * @returns the last value/price. If the csv includes shipping costs it will be the landing price (price + shipping).
    */
-  static getLast(csv: number[], type: CsvType): number {
+  static getLast({
+    csv,
+    type,
+  }: {
+    csv: number[] | null;
+    type: CsvType;
+  }): number {
     if (!csv || csv.length === 0) return -1;
 
     if (type.isWithShipping) {
@@ -157,7 +174,13 @@ export class ProductAnalyzer {
    * @param type the type of the csv data.
    * @return keepa time minutes of the last entry
    */
-  static getLastTime(csv: number[], type: CsvType): number {
+  static getLastTime({
+    csv,
+    type,
+  }: {
+    csv: number[] | null;
+    type: CsvType;
+  }): number {
     return !csv || csv.length === 0
       ? -1
       : csv[csv.length - (type.isWithShipping ? 3 : 2)];
@@ -172,7 +195,15 @@ export class ProductAnalyzer {
    * @returns The price or value of the product at the given time, or -1 if no value is found or the product was out of stock.
    *          If the CSV includes shipping costs, the result will be the total landing price (price + shipping).
    */
-  static getValueAtTime(csv: number[], time: number, type: CsvType): number {
+  static getValueAtTime({
+    csv,
+    time,
+    type,
+  }: {
+    csv: number[] | null;
+    time: number;
+    type: CsvType;
+  }): number {
     if (!csv || csv.length === 0) {
       return -1;
     }
@@ -186,7 +217,7 @@ export class ProductAnalyzer {
     }
 
     if (csv.length < i) {
-      return this.getLast(csv, type);
+      return this.getLast({ csv, type });
     }
     if (i < loopIncrement) {
       return -1;
@@ -208,7 +239,13 @@ export class ProductAnalyzer {
    * @param time - The time (Keepa time in minutes) to look up the price and shipping.
    * @returns An array [price, shipping] of the product at the given time, or [-1, -1] if no value is found or the product was out of stock.
    */
-  static getPriceAndShippingAtTime(csv: number[], time: number): number[] {
+  static getPriceAndShippingAtTime({
+    csv,
+    time,
+  }: {
+    csv: number[] | null;
+    time: number;
+  }): number[] {
     if (!csv || csv.length === 0) {
       return [-1, -1];
     }
@@ -236,7 +273,7 @@ export class ProductAnalyzer {
    * @param csv price with shipping history csv
    * @return int[price, shipping] - the last price and shipping cost.
    */
-  static getLastPriceAndShipping(csv: number[]): number[] {
+  static getLastPriceAndShipping(csv: number[] | null): number[] {
     if (!csv || csv.length < 3) {
       return [-1, -1];
     }
@@ -252,11 +289,15 @@ export class ProductAnalyzer {
    * @returns The closest price or value found to the specified time, or -1 if no value is found.
    *          If the CSV includes shipping costs, the result will be the total landing price (price + shipping).
    */
-  static getClosestValueAtTime(
-    csv: number[],
-    time: number,
-    type: CsvType
-  ): number {
+  static getClosestValueAtTime({
+    csv,
+    time,
+    type,
+  }: {
+    csv: number[] | null;
+    time: number;
+    type: CsvType;
+  }): number {
     if (!csv || csv.length === 0) {
       return -1;
     }
@@ -270,7 +311,7 @@ export class ProductAnalyzer {
     }
 
     if (csv.length < i) {
-      return this.getLast(csv, type);
+      return this.getLast({ csv, type });
     }
     if (i < loopIncrement) {
       if (type.isWithShipping) {
@@ -302,7 +343,7 @@ export class ProductAnalyzer {
           }
         }
         if (csv.length < i) {
-          return this.getLast(csv, type);
+          return this.getLast({ csv, type });
         }
         if (i < 3) {
           return -1;
@@ -321,7 +362,7 @@ export class ProductAnalyzer {
           }
         }
         if (csv.length < i) {
-          return this.getLast(csv, type);
+          return this.getLast({ csv, type });
         }
         if (i < 2) {
           return -1;
@@ -339,13 +380,19 @@ export class ProductAnalyzer {
    * @returns An array [low, high]. If the CSV includes shipping costs, the extreme points will be the landing price (price + shipping).
    *          Returns [-1, -1] if insufficient data is available.
    */
-  static getLowestAndHighest(csv: number[], type: CsvType): number[] {
-    const minMax = this.getExtremePointsInIntervalWithTime(
-      csv,
-      0,
-      Number.MAX_VALUE,
-      type
-    );
+  static getLowestAndHighest({
+    csv,
+    type,
+  }: {
+    csv: number[] | null;
+    type: CsvType;
+  }): number[] {
+    const minMax = this.getExtremePointsInIntervalWithTime({
+      csv: csv,
+      start: 0,
+      end: Number.MAX_VALUE,
+      type,
+    });
     return [minMax[1], minMax[3]];
   }
 
@@ -358,13 +405,16 @@ export class ProductAnalyzer {
    *          the extreme points will be the landing price (price + shipping).
    *          Returns [-1, -1, -1, -1] if insufficient data is available.
    */
-  static getLowestAndHighestWithTime(csv: number[], type: CsvType): number[] {
-    return this.getExtremePointsInIntervalWithTime(
+  static getLowestAndHighestWithTime(
+    csv: number[] | null,
+    type: CsvType
+  ): number[] {
+    return this.getExtremePointsInIntervalWithTime({
       csv,
-      0,
-      Number.MAX_VALUE,
-      type
-    );
+      start: 0,
+      end: Number.MAX_VALUE,
+      type,
+    });
   }
 
   /**
@@ -377,19 +427,24 @@ export class ProductAnalyzer {
    * @returns The weighted mean or -1 if the history CSV length is insufficient (less than a day).
    *          If the CSV includes shipping costs, it will be the weighted mean of the landing price (price + shipping).
    */
-  static calcWeightedMean(
-    csv: number[],
-    now: number,
-    days: number,
-    type: CsvType
-  ): number {
-    return this.getWeightedMeanInInterval(
-      csv,
+  static calcWeightedMean({
+    csv,
+    now,
+    days,
+    type,
+  }: {
+    csv: number[] | null;
+    now: number;
+    days: number;
+    type: CsvType;
+  }): number {
+    return this.getWeightedMeanInInterval({
+      csv: csv,
       now,
-      now - Math.floor(days * 24 * 60),
-      now,
-      type
-    );
+      start: now - Math.floor(days * 24 * 60),
+      end: now,
+      type,
+    });
   }
 
   /**
@@ -403,13 +458,19 @@ export class ProductAnalyzer {
    * @returns The weighted mean or -1 if the history CSV length is insufficient. If the CSV includes shipping costs,
    *          it will be the weighted mean of the landing price (price + shipping).
    */
-  static getWeightedMeanInInterval(
-    csv: number[],
-    now: number,
-    start: number,
-    end: number,
-    type: CsvType
-  ): number {
+  static getWeightedMeanInInterval({
+    csv,
+    now,
+    start,
+    end,
+    type,
+  }: {
+    csv: number[] | null;
+    now: number;
+    start: number;
+    end: number;
+    type: CsvType;
+  }): number {
     let avg = -1;
     if (end <= start || !csv || csv.length === 0) {
       return -1;
@@ -418,7 +479,7 @@ export class ProductAnalyzer {
     const size = csv.length;
     const loopIncrement = type.isWithShipping ? 3 : 2;
 
-    const lastTime = this.getLastTime(csv, type);
+    const lastTime = this.getLastTime({ csv, type });
     const firstTime = csv[0];
 
     if (lastTime === -1 || firstTime === -1 || end < firstTime) {
@@ -494,12 +555,17 @@ export class ProductAnalyzer {
    * @param type - The type of CSV data.
    * @returns True if out of stock during the interval, false otherwise, or null if the CSV is too short to determine.
    */
-  static getOutOfStockInInterval(
-    csv: number[],
-    start: number,
-    end: number,
-    type: CsvType
-  ): boolean | null {
+  static getOutOfStockInInterval({
+    csv,
+    start,
+    end,
+    type,
+  }: {
+    csv: number[] | null;
+    start: number;
+    end: number;
+    type: CsvType;
+  }): boolean | null {
     if (type.isWithShipping) {
       if (!csv || csv.length < 6) {
         return null;
@@ -536,14 +602,21 @@ export class ProductAnalyzer {
    * @param trackingSince - The product object's tracking start time.
    * @returns Percentage between 0 and 100, or -1 if insufficient data. 100 means fully out of stock in the interval.
    */
-  static getOutOfStockPercentageInInterval(
-    csv: number[],
-    now: number,
-    start: number,
-    end: number,
-    type: CsvType,
-    trackingSince: number
-  ): number {
+  static getOutOfStockPercentageInInterval({
+    csv,
+    now,
+    start,
+    end,
+    type,
+    trackingSince,
+  }: {
+    csv: number[] | null;
+    now: number;
+    start: number;
+    end: number;
+    type: CsvType;
+    trackingSince: number;
+  }): number {
     if (!type.isPrice) {
       return -1;
     }
@@ -556,7 +629,7 @@ export class ProductAnalyzer {
 
     const size = csv.length;
     const loopIncrement = type.isWithShipping ? 3 : 2;
-    const lastTime = this.getLastTime(csv, type);
+    const lastTime = this.getLastTime({ csv, type });
     const firstTime = csv[0];
 
     if (
