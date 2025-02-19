@@ -904,10 +904,28 @@ export type CsvType = {
   isExtraData: boolean;
 };
 
+export type CsvTypeKeys =
+  | 'AMAZON'
+  | 'NEW'
+  | 'USED'
+  | 'SALES'
+  | 'LISTPRICE'
+  | 'COLLECTIBLE'
+  | 'REFURBISHED'
+  | 'NEW_FBM_SHIPPING'
+  | 'LIGHTNING_DEAL'
+  | 'WAREHOUSE'
+  | 'NEW_FBA'
+  | 'RATING'
+  | 'COUNT_REVIEWS'
+  | 'BUY_BOX_SHIPPING'
+  | 'BUY_BOX_USED_SHIPPING'
+  | 'PRIME_EXCL';
+
 /**
  * Enum representing CSV types for various price histories and product attributes.
  */
-export const CsvTypes: Record<string, CsvType> = {
+export const CsvTypes: Record<CsvTypeKeys, CsvType> = {
   /**
    * Amazon price history
    */
