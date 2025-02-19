@@ -454,7 +454,7 @@ export type Product = {
     /**
      * Contains subcategory rank histories. Each key represents the categoryId of the rank with the history in the corresponding value.
      */
-    salesRanks?: Map<number, number[]>;
+    salesRanks?: Map<string, number[]>;
     /**
      * The category node id of the main sales rank. -1 if not available.
      */
@@ -630,7 +630,7 @@ export type Product = {
      * price: 4900 => $ 49.00 (if domainId is 5, Japan, then price: 4900 => ¥ 4900)<br>
      * A price of '-1' means that there was no offer at the given timestamp (e.g. out of stock).
      */
-    csv?: number[][];
+    csv?: (number[] | null)[];
 };
 /**
  * Represents a video associated with a product.
@@ -700,10 +700,11 @@ export type UnitCountObject = {
  * Contains detailed FBA fees. If the total fee is 0 the product does not have (valid) dimensions and thus the fee can not be calculated.
  */
 export type FBAFeesObject = {
-    storageFee: number;
-    storageFeeTax: number;
-    pickAndPackFee: number;
-    pickAndPackFeeTax: number;
+    lastUpdate: number;
+    storageFee?: number;
+    storageFeeTax?: number;
+    pickAndPackFee?: number;
+    pickAndPackFeeTax?: number;
 };
 /**
  * Represents hazardous material information.
@@ -763,10 +764,11 @@ export type CsvType = {
     isWithShipping: boolean;
     isExtraData: boolean;
 };
+export type CsvTypeKeys = 'AMAZON' | 'NEW' | 'USED' | 'SALES' | 'LISTPRICE' | 'COLLECTIBLE' | 'REFURBISHED' | 'NEW_FBM_SHIPPING' | 'LIGHTNING_DEAL' | 'WAREHOUSE' | 'NEW_FBA' | 'RATING' | 'COUNT_REVIEWS' | 'BUY_BOX_SHIPPING' | 'BUY_BOX_USED_SHIPPING' | 'PRIME_EXCL';
 /**
  * Enum representing CSV types for various price histories and product attributes.
  */
-export declare const CsvTypes: Record<string, CsvType>;
+export declare const CsvTypes: Record<CsvTypeKeys, CsvType>;
 /**
  * Returns the corresponding CsvType by index.
  * @param index - The index value to match.
